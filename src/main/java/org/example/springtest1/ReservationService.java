@@ -25,17 +25,8 @@ public class ReservationService {
 
     public List<Reservation> getAllReservations() {
         List<ReservationEntity> allEntities = repository.findAll();
-
-
         return allEntities.stream()
-                        .map(it -> new Reservation(
-                                it.getId(),
-                                it.getUserId(),
-                                it.getRoomId(),
-                                it.getStartDate(),
-                                it.getEndDate(),
-                                it.getStatus()
-                        )).toList();
+                        .map(this::toDomainReservation).toList();
     }
 
 
@@ -77,7 +68,7 @@ public class ReservationService {
             throw new EntityNotFoundException("reservation is not found, id=" + id);
         }
 
-        repository.deleteById(id);
+       repository.cancelReservation(id, ReservationStatus.CANCELLED);
     }
 
 
@@ -87,6 +78,10 @@ public class ReservationService {
 
         var reservationToUpdate = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("reservation is not found, id=" + id));
+
+        if (reservation.id() != null) {
+            throw new IllegalArgumentException("reservation id must be null");
+        }
 
         if (reservationToUpdate.getStatus() != ReservationStatus.PENDING) {
             throw new IllegalStateException("problem with status, id=" + id);
@@ -102,7 +97,6 @@ public class ReservationService {
         );
 
         var updatedEntity = repository.save(entityToSave);
-
         return toDomainReservation(updatedEntity);
     }
 
@@ -111,7 +105,6 @@ public class ReservationService {
     public Reservation approveReservationById(Long id) {
         var reservation = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("reservation is not found, id=" + id));
-
 
         if (reservation.getStatus() != ReservationStatus.PENDING) {
             throw new IllegalStateException("problem with status, id=" + id);
@@ -125,25 +118,12 @@ public class ReservationService {
         reservation.setStatus(ReservationStatus.APPROVED);
         repository.save(reservation);
 
-
         return toDomainReservation(reservation);
     }
 
 
 
-
-
-
     private boolean isReservationValid(ReservationEntity reservation){
-//        return reservations.values()
-//                .stream()
-//                .filter((res) -> Objects.equals(res.roomId(), reservation.getRoomId()))
-//                .filter(res -> res.status() == ReservationStatus.APPROVED)
-//                .anyMatch((res) ->
-//                        reservation.getStartDate().isBefore(res.endDate()) &&
-//                                reservation.endDate().isAfter(res.startDate())
-//                );
-
         List<ReservationEntity> allReservations = repository.findAll();
 
         for (ReservationEntity existedEntity : allReservations) {
@@ -156,11 +136,7 @@ public class ReservationService {
                 return true;
             }
         }
-
         return false;
-
-
-
     }
 
 
