@@ -1,4 +1,4 @@
-package org.example.springtest1;
+package org.example.springtest1.reservations;
 
 public enum ReservationStatus {
     PENDING,

@@ -1,4 +1,4 @@
-package org.example.springtest1;
+package org.example.springtest1.reservations;
 
 
 import jakarta.persistence.*;
@@ -89,6 +89,4 @@ public class ReservationEntity {
     public Long getId() {
         return id;
     }
-
-
 }

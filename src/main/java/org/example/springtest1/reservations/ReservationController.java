@@ -1,9 +1,10 @@
-package org.example.springtest1;
+package org.example.springtest1.reservations;
 
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,19 +24,31 @@ public class ReservationController {
 
 
     @GetMapping
-    public ResponseEntity<List<Reservation>> getAllReservations() {
-        return ResponseEntity.ok(reservationService.getAllReservations());
+    public ResponseEntity<List<Reservation>> getAllReservations(
+            @RequestParam(name = "roomId", required = false) Long roomId,
+            @RequestParam(name = "userId", required = false) Long userId,
+            @RequestParam(name = "pageSize", required = false) Integer pageSize,
+            @RequestParam(name = "pageNumber", required = false) Integer pageNumber
+            ) {
+        var filter = new ReservationSearchFilter(
+                roomId,
+                userId,
+                pageSize,
+                pageNumber);
+
+        return ResponseEntity.ok(
+                reservationService.findReservationByFilter(filter));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Reservation> getReservationById(
             @PathVariable Long id) {
-        return ResponseEntity.ok(reservationService.getReservetionById(id));
+        return ResponseEntity.ok(reservationService.getReservationById(id));
     }
 
     @PostMapping
     public ResponseEntity<Reservation> createReservation(
-            @RequestBody Reservation reservation) {
+            @Valid @RequestBody Reservation reservation) {
         return ResponseEntity.status(HttpStatus.CREATED)
                     .body(reservationService.createReservation(reservation));
     }
@@ -53,7 +66,7 @@ public class ReservationController {
     @PutMapping("/{id}")
     public ResponseEntity<Reservation> updateReservation(
             @PathVariable Long id,
-            @RequestBody Reservation reservation) {
+            @Valid @RequestBody Reservation reservation) {
         return ResponseEntity.ok(reservationService.updateReservation(id, reservation));
     }
 

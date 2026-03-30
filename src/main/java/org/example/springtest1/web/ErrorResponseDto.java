@@ -1,6 +1,5 @@
-package org.example.springtest1;
+package org.example.springtest1.web;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
 
 public record ErrorResponseDto(

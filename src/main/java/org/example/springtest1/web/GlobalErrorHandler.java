@@ -1,4 +1,4 @@
-package org.example.springtest1;
+package org.example.springtest1.web;
 
 
 import jakarta.persistence.EntityNotFoundException;
@@ -6,9 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 
@@ -32,8 +32,7 @@ public class GlobalErrorHandler {
     }
 
     @ExceptionHandler(exception = {
-            EntityNotFoundException.class,
-    })
+            EntityNotFoundException.class})
     public ResponseEntity<ErrorResponseDto> handleEntityNotFoundException(Exception ex) {
         log.error(ex.getMessage(), ex);
 
@@ -51,8 +50,8 @@ public class GlobalErrorHandler {
 
     @ExceptionHandler(exception = {
             IllegalArgumentException.class,
-            IllegalStateException.class
-    })
+            IllegalStateException.class,
+            MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorResponseDto> handleIllegalArgumentException(Exception ex) {
         log.error(ex.getMessage(), ex);
 
@@ -66,9 +65,6 @@ public class GlobalErrorHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errorDto);
     }
-
-
-
 }
 
 
