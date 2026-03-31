@@ -1,9 +1,8 @@
 package org.example.springtest1.reservations.availability;
 
 
-import org.example.springtest1.reservations.Reservation;
-import org.example.springtest1.reservations.ReservationStatus;
-import org.example.springtest1.reservations.ReservationsRepository;
+import org.example.springtest1.reservations.db.ReservationStatus;
+import org.example.springtest1.reservations.db.ReservationsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

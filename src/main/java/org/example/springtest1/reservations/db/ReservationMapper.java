@@ -1,5 +1,6 @@
-package org.example.springtest1.reservations;
+package org.example.springtest1.reservations.db;
 
+import org.example.springtest1.reservations.api.Reservation;
 import org.springframework.stereotype.Component;
 
 @Component

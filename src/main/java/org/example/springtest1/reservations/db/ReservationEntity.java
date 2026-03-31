@@ -1,4 +1,4 @@
-package org.example.springtest1.reservations;
+package org.example.springtest1.reservations.db;
 
 
 import jakarta.persistence.*;

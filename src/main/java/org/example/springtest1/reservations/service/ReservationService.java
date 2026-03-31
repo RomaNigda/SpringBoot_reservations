@@ -1,7 +1,13 @@
-package org.example.springtest1.reservations;
+package org.example.springtest1.reservations.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.example.springtest1.reservations.api.Reservation;
+import org.example.springtest1.reservations.db.ReservationMapper;
+import org.example.springtest1.reservations.db.ReservationStatus;
+import org.example.springtest1.reservations.api.ReservationSearchFilter;
 import org.example.springtest1.reservations.availability.CheckAvailabilityService;
+import org.example.springtest1.reservations.db.ReservationEntity;
+import org.example.springtest1.reservations.db.ReservationsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

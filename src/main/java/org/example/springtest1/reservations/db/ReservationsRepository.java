@@ -1,4 +1,4 @@
-package org.example.springtest1.reservations;
+package org.example.springtest1.reservations.db;
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface ReservationsRepository extends JpaRepository<ReservationEntity, Long> {
