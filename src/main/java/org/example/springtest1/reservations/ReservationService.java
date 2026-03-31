@@ -1,6 +1,7 @@
 package org.example.springtest1.reservations;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.example.springtest1.reservations.availability.CheckAvailabilityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,13 @@ public class ReservationService {
     public static final Logger log = LoggerFactory.getLogger(ReservationService.class);
     private final ReservationsRepository repository;
     private final ReservationMapper mapper;
+    private final CheckAvailabilityService availabilityService;
 
     @Autowired
-    public ReservationService(ReservationsRepository repository,  ReservationMapper mapper) {
+    public ReservationService(ReservationsRepository repository, ReservationMapper mapper, CheckAvailabilityService availabilityService) {
         this.mapper = mapper;
         this.repository = repository;
+        this.availabilityService = availabilityService;
     }
 
 
@@ -120,13 +123,13 @@ public class ReservationService {
         }
 
 
-        List<Long> conflictedIds = repository.findAllConflictedId(
+        var isAvailable = availabilityService.isReservationAvailable(
                 reservation.getRoomId(),
                 reservation.getStartDate(),
-                reservation.getEndDate(),
-                ReservationStatus.APPROVED);
+                reservation.getEndDate()
+        );
 
-        if (!conflictedIds.isEmpty()) {
+        if (!isAvailable) {
             throw new IllegalArgumentException("These dates are already booked");
         }
 
