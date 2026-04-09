@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -29,10 +30,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth ->  auth
-                .anyRequest().authenticated());
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/reservation/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+        );
+
+
 
         http.formLogin(Customizer.withDefaults());
         http.logout(Customizer.withDefaults());
+        http.exceptionHandling(exception -> exception
+                .accessDeniedHandler(accessDeniedHandler())  // ← Обробник помилок доступу
+                .accessDeniedPage("/access-denied")          // ← Сторінка для помилки доступу
+        );
 
         return http.build();
     }
@@ -53,4 +63,13 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
+
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            response.sendRedirect("/access-denied?error=" + accessDeniedException.getMessage());
+        };
+    }
+
 }
