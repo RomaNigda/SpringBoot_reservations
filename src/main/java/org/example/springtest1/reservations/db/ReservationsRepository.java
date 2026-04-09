@@ -52,6 +52,23 @@ public interface ReservationsRepository extends JpaRepository<ReservationEntity,
 
 
 
+    @Query("""
+        SELECT r from ReservationEntity r
+                WHERE (:roomId IS NULL OR r.roomId = :roomId)
+                AND (:userId = r.userId)
+        """)
+    Page<ReservationEntity> searchAllUserReservationsByFilter(
+            @Param("userId") Long userId,
+            @Param("roomId") Long roomId,
+            Pageable pageable
+    );
+
+
+
+
+
+
+
 
 
 }
