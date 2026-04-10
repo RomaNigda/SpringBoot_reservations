@@ -2,6 +2,7 @@ package org.example.springtest1.reservations.db;
 
 
 import jakarta.persistence.*;
+import org.example.springtest1.users.UserEntity;
 
 import java.time.LocalDate;
 
@@ -13,7 +14,7 @@ public class ReservationEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", updatable = false, insertable = false)
     private Long userId;
 
     @Column(name = "room_id")
@@ -28,6 +29,9 @@ public class ReservationEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ReservationStatus status;
+
+    @ManyToOne
+    UserEntity user;
 
 
     public ReservationEntity() {
