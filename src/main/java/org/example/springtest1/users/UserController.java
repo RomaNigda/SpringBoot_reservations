@@ -1,13 +1,11 @@
 package org.example.springtest1.users;
 
+import org.example.springtest1.Roles;
 import org.example.springtest1.reservations.api.Reservation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
@@ -21,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("dashboard/")
+    @GetMapping({"dashboard/", "dashboard"})
     public ResponseEntity<List<Reservation>> profileDashboard(
             @AuthenticationPrincipal UserEntity user,
             @RequestParam(name = "roomId", required = false) Long roomId,
@@ -37,6 +35,19 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(reservations);
     }
 
+    @GetMapping({"myRole", "myRole/"})
+    public ResponseEntity<List<Roles>> myRole(@AuthenticationPrincipal UserEntity user) {
+        var role = user.getRoles();
+        return ResponseEntity.status(HttpStatus.OK).body(role);
+    }
+
+//    @GetMapping("addTestRole")
+//    public ResponseEntity<String> addTestRole(
+//            @AuthenticationPrincipal UserEntity user
+//    ) {
+//        userRolesService.addRoleToUser(user, Roles.ADMIN);
+//        return ResponseEntity.status(HttpStatus.OK).body("Success");
+//    }
 
 
 

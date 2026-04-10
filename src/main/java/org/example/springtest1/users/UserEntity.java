@@ -1,6 +1,7 @@
 package org.example.springtest1.users;
 
 import jakarta.persistence.*;
+import org.example.springtest1.Roles;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,18 +30,19 @@ public class UserEntity implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
-    private List<String> roles;
+    @Enumerated(EnumType.STRING)
+    private List<Roles> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toString()))
                 .collect(Collectors.toList());
     }
 
 
 
-    public UserEntity(String username, Long id, List<String> roles) {
+    public UserEntity(String username, Long id, List<Roles> roles) {
         this.username = username;
         this.id = id;
         this.roles = roles;
@@ -69,7 +71,6 @@ public class UserEntity implements UserDetails {
         return true;
     }
 
-
     @Override
     public String getPassword() {
         return password;
@@ -79,11 +80,11 @@ public class UserEntity implements UserDetails {
         this.password = password;
     }
 
-    public List<String> getRoles() {
+    public List<Roles> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(List<Roles> roles) {
         this.roles = roles;
     }
 
