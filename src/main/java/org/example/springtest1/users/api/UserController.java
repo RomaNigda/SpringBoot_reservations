@@ -1,13 +1,14 @@
-package org.example.springtest1.users;
+package org.example.springtest1.users.api;
 
-import org.example.springtest1.Roles;
 import org.example.springtest1.reservations.api.Reservation;
+import org.example.springtest1.users.db.Roles;
+import org.example.springtest1.users.db.UserEntity;
+import org.example.springtest1.users.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 @RestController

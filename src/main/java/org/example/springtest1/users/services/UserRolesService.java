@@ -1,12 +1,12 @@
-package org.example.springtest1.users;
+package org.example.springtest1.users.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.example.springtest1.Roles;
+import org.example.springtest1.users.db.Roles;
+import org.example.springtest1.users.db.UserEntity;
+import org.example.springtest1.users.db.UserRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
-
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 @Service
 public class UserRolesService {

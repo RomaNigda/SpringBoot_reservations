@@ -2,7 +2,7 @@ package org.example.springtest1.reservations.db;
 
 
 import jakarta.persistence.*;
-import org.example.springtest1.users.UserEntity;
+import org.example.springtest1.users.db.UserEntity;
 
 import java.time.LocalDate;
 

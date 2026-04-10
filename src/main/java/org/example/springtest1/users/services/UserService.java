@@ -1,9 +1,10 @@
-package org.example.springtest1.users;
+package org.example.springtest1.users.services;
 
 import org.example.springtest1.reservations.api.Reservation;
 import org.example.springtest1.reservations.db.ReservationMapper;
 import org.example.springtest1.reservations.db.ReservationsRepository;
-import org.example.springtest1.reservations.service.ReservationService;
+import org.example.springtest1.users.api.ReservationByUserSearchFilter;
+import org.example.springtest1.users.db.UserEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

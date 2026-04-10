@@ -1,4 +1,4 @@
-package org.example.springtest1.users;
+package org.example.springtest1.users.db;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
