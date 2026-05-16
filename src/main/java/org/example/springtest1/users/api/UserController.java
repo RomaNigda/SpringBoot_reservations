@@ -1,5 +1,6 @@
 package org.example.springtest1.users.api;
 
+import jakarta.validation.Valid;
 import org.example.springtest1.reservations.api.Reservation;
 import org.example.springtest1.users.db.Roles;
 import org.example.springtest1.users.db.UserEntity;
@@ -33,7 +34,24 @@ public class UserController {
 
         List<Reservation> reservations = userService.loadReservationByUser(user, filter);
 
-        return ResponseEntity.status(HttpStatus.OK).body(reservations);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(reservations);
+    }
+
+    @PostMapping({"newReservation", "newReservation/"})
+    public ResponseEntity<Reservation> createReservation(
+            @AuthenticationPrincipal UserEntity user,
+            @Valid @RequestBody Reservation reservation
+    ){
+        Reservation reservationToReturn = userService.createReservation(
+                user,
+                reservation
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(reservationToReturn);
     }
 
     @GetMapping({"myRole", "myRole/"})
@@ -41,15 +59,4 @@ public class UserController {
         var role = user.getRoles();
         return ResponseEntity.status(HttpStatus.OK).body(role);
     }
-
-//    @GetMapping("addTestRole")
-//    public ResponseEntity<String> addTestRole(
-//            @AuthenticationPrincipal UserEntity user
-//    ) {
-//        userRolesService.addRoleToUser(user, Roles.ADMIN);
-//        return ResponseEntity.status(HttpStatus.OK).body("Success");
-//    }
-
-
-
 }

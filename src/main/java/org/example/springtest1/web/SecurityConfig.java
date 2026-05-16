@@ -1,6 +1,5 @@
 package org.example.springtest1.web;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,7 +38,6 @@ public class SecurityConfig {
         http.logout(Customizer.withDefaults());
         http.exceptionHandling(exception -> exception
                 .accessDeniedHandler(accessDeniedHandler())  // ← Обробник помилок доступу
-                .accessDeniedPage("/access-denied")          // ← Сторінка для помилки доступу
         );
 
         return http.build();
