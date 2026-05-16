@@ -1,6 +1,6 @@
 # 🏨 Room Reservation API
 
-REST API для системи резервації кімнат, побудована на Java 17 + Spring Boot 3.x з підтримкою ролей та Form-Based аутентифікації.
+REST API for a room reservation system built with Java 17 + Spring Boot 3.x, with role-based access control and Form-Based authentication.
 
 ---
 
@@ -13,44 +13,46 @@ REST API для системи резервації кімнат, побудов
 
 ---
 
-## Ролі
+## Roles
 
-| Роль | Можливості |
-|------|-----------|
-| `ADMIN` | CRUD усіх резервацій, фільтрація по кімнаті / userId, пагінація |
-| `USER` | Перегляд своїх резервацій, створення нової для себе |
+| Role | Permissions |
+|------|-------------|
+| `ADMIN` | Full CRUD on all reservations, filtering by room / userId, pagination |
+| `USER` | View own reservations, create a new reservation for themselves |
 
 ---
 
 ## Endpoints
 
 ### Auth
-| Method | URL | Доступ |
+| Method | URL | Access |
 |--------|-----|--------|
 | `POST` | `/login` | All |
 | `POST` | `/logout` | All |
 
 ### Reservations
-| Method | URL | Доступ | Опис |
-|--------|-----|--------|------|
-| `GET` | `/api/reservations` | ADMIN | Усі резервації (з фільтрами) |
-| `GET` | `/api/reservations/{id}` | ADMIN | Резервація за ID |
-| `POST` | `/api/reservations` | ADMIN | Створити резервацію |
-| `PUT` | `/api/reservations/{id}` | ADMIN | Оновити резервацію |
-| `DELETE` | `/api/reservations/{id}` | ADMIN | Видалити резервацію |
-| `GET` | `/api/profile/dashboard` | USER | Свої резервації |
-| `POST` | `/api/profile/newReservation` | User | Створити резервацію |
+| Method | URL | Access | Description |
+|--------|-----|--------|-------------|
+| `GET` | `/api/reservations` | ADMIN | Get all reservations (with filters) |
+| `GET` | `/api/reservations/{id}` | ADMIN | Get reservation by ID |
+| `POST` | `/api/reservations` | ADMIN | Create a reservation |
+| `PUT` | `/api/reservations/{id}` | ADMIN | Update a reservation |
+| `DELETE` | `/api/reservations/{id}` | ADMIN | Delete a reservation |
+| `GET` | `/api/profile/dashboard` | USER | View own reservations |
+| `POST` | `/api/profile/newReservation` | USER | Create a reservation |
 
-### Query-параметри для ADMIN (GET /api/reservations)
+### Query Parameters for ADMIN (GET /api/reservations)
 
 ```
-roomId    – фільтр по кімнаті
-userId    – фільтр по користувачу
-page      – номер сторінки (від 0)
-size      – кількість записів на сторінці
+roomId    – filter by room
+userId    – filter by user
+page      – page number (starting from 0)
+size      – number of records per page
 ```
 
-## Структура проекту
+---
+
+## Project Structure
 
 ```
 src/
